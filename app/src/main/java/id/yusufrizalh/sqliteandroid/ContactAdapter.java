@@ -55,9 +55,21 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
         holder.img_delete_contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myDatabase.deleteContact(contacts.getId());
-                ((Activity) context).finish();
-                context.startActivity(((Activity) context).getIntent());
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Delete Contact");
+                builder.setMessage("Are you sure to delete this contact?");
+                builder.setIcon(context.getResources().getDrawable(android.R.drawable.ic_delete));
+                builder.create();
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        myDatabase.deleteContact(contacts.getId());
+                        ((Activity) context).finish();
+                        context.startActivity(((Activity) context).getIntent());
+                    }
+                });
+                builder.setNegativeButton("CANCEL", null);
+                builder.show();
             }
         });
     }
