@@ -34,7 +34,16 @@ public class MainActivity extends AppCompatActivity {
         myDatabase = new SqliteDatabase(this);
         ArrayList<Contacts> allContacts = myDatabase.listContacts();
         // melihat semua isi tabel
-
+        if (allContacts.size() > 0){    // tabel ada isinya
+            contactView.setVisibility(View.VISIBLE);
+            // gunakan adapter utk menampilkan isi tabel kedalam contactView/RecyclerView
+            ContactAdapter myAdapter = new ContactAdapter(this, allContacts);
+            contactView.setAdapter(myAdapter);
+        } else {    // tabel tidak ada isi/kosong
+            contactView.setVisibility(View.GONE);
+            Toast.makeText(this,
+                    "Tidak ada data dalam tabel contacts!", Toast.LENGTH_SHORT).show();
+        }
 
         btn_add = findViewById(R.id.btn_add);
         btn_add.setOnClickListener(new View.OnClickListener() {
